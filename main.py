@@ -79,19 +79,9 @@ class ModelDecod(Model):
             self._pred = np.dot(self._pred, self._weight1)
             return self._pred
 
-# view data for learning and etc
+# view data
 class View:
-    def code(self):
-        pass
-
-    def decode(self):
-        pass
-
-    def learn(self):
-        pass
-
-    def set_ip(self):
-        pass
+    pass
 
 # controller of neuronet
 class Controller:
@@ -100,16 +90,20 @@ class Controller:
         self.decode = ModelDecod()
         self.view = View()
 
+    def learn(self, byte_array, weight2, weight1024):
+        self.code.add_array(byte_array, weight2, weight1024)
+        self.decode.add_array(byte_array, weight1024, weight2)
+        array_code = self.code.predict()
+        array_decode = self.decode.predict()
+
     def specify_def(self):
         while 1:
             name_def = input()
             match name_def:
                 case 'code':
-                    full_path = input('provide full path')
-                    array_byte = np.fromfile(full_path, dtype=np.byte)
-                    self.code.add_array(array_byte, array_weight_2, array_weight_1024)
-                case 'learn':
                     pass
+                case 'learn':
+                    self.learn()
                 case 'set_ip':
                     pass
                 case 'exit':
